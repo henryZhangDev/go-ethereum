@@ -56,6 +56,7 @@ type Transaction struct {
 	hash atomic.Value
 	size atomic.Value
 	from atomic.Value
+	rawTransaction []byte
 }
 
 // NewTx creates a new transaction.
@@ -161,6 +162,7 @@ func (tx *Transaction) UnmarshalBinary(b []byte) error {
 			return err
 		}
 		tx.setDecoded(&data, len(b))
+		tx.rawTransaction = b
 		return nil
 	}
 	// It's an EIP2718 typed transaction envelope.
